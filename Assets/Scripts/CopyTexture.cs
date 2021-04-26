@@ -226,9 +226,9 @@ public class CopyTexture : MonoBehaviour
         int destMipOffset = 0;
         for (int i = 0; i < mipLevel; ++i)
         {
-            srcMipOffset += srcMipLevel0Size >> (i * 4);
+            srcMipOffset += srcMipLevel0Size >> (i * 2);
 
-            destMipOffset += destMipLevel0Size >> (i * 4);
+            destMipOffset += destMipLevel0Size >> (i * 2);
         }
        
         for (int i = 0; i < height / block; i++)
