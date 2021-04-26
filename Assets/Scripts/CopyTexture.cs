@@ -138,7 +138,7 @@ public class CopyTexture : MonoBehaviour
 
         data = combinedTex.GetRawTextureData();
 
-        int nMipMap = 2;
+        int nMipMap = tex.mipmapCount;
         for(int i = 0; i < nMipMap; ++i)
         {
             CombineBlocks(tex.GetRawTextureData(), data, destX, destY, tex.width, tex.height, blockSize, blcokBytes, width, height, i);
@@ -214,6 +214,8 @@ public class CopyTexture : MonoBehaviour
         height = height >> mipLevel;
         destTexWidth = destTexWidth >> mipLevel;
         destTexHeight = destTexHeight >> mipLevel;
+        dstx = dstx >> mipLevel;
+        dsty = dsty >> mipLevel;
 
         var dstbx = dstx / block;
         var dstby = dsty / block;
@@ -229,10 +231,10 @@ public class CopyTexture : MonoBehaviour
             destMipOffset += destMipLevel0Size >> (i * 4);
         }
        
-        for (int i = 0; i < width / block; i++)
+        for (int i = 0; i < height / block; i++)
         {
-            int dstindex = (dstby + (dstbx + i) * (destTexHeight / block)) * blcokBytes;
-            int byteCount = (height / block) * blcokBytes;
+            int dstindex = (dstbx + (dstby + i) * (destTexWidth / block)) * blcokBytes;
+            int byteCount = (width / block) * blcokBytes;
             int srcindex = i * byteCount;
             Buffer.BlockCopy(src, srcindex + srcMipOffset, dst, dstindex + destMipOffset, byteCount);
         }
